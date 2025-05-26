@@ -2,7 +2,10 @@ package jungsom.garden_bible.controller;
 
 import jungsom.garden_bible.entity.BibleId;
 import jungsom.garden_bible.entity.BibleKorHRV;
+import jungsom.garden_bible.entity.User;
 import jungsom.garden_bible.repository.BibleKorHRVRepository;
+import jungsom.garden_bible.service.UserDetailService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,12 +16,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/bible")
+@RequiredArgsConstructor
 public class BibleController {
     private final BibleKorHRVRepository repository;
-
-    public BibleController(BibleKorHRVRepository repository) {
-        this.repository = repository;
-    }
+    private final UserDetailService userDetailService;
 
     @GetMapping()
     public List<BibleKorHRV> getVersesByBookAndChapter(

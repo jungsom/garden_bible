@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PrayDto {
-    private String title;
-    private String author;
-    private String content;
+public class FriendRequestDto {
+    private Long fromUserId;
+    private String toInviteCode;
 }

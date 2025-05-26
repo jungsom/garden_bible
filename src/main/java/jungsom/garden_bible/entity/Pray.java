@@ -1,9 +1,6 @@
 package jungsom.garden_bible.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -15,11 +12,12 @@ import lombok.*;
 @Builder
 public class Pray {
     @Id @GeneratedValue
-    private int id;
+    private Integer id;
 
     public String title;
 
-    public String author;
+    @ManyToOne
+    public User author;
 
     public String content;
 }
