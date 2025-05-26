@@ -59,9 +59,9 @@ public class PrayController {
         }
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePray(
-            @RequestParam Integer id
+            @PathVariable Integer id
     ) {
         try {
             String result = prayService.deletePray(id);

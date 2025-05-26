@@ -1,15 +1,10 @@
 package jungsom.garden_bible.entity;
 
 import jakarta.persistence.*;
+import jungsom.garden_bible.enums.FriendshipStatus;
 import lombok.*;
 
 import java.time.LocalDateTime;
-
-enum FriendshipStatus {
-    REQUESTED,
-    ACCEPTED,
-    REJECTED
-}
 
 @Entity
 @Table(name = "friendship")

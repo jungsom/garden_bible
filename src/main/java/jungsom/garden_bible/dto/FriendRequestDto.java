@@ -1,5 +1,7 @@
 package jungsom.garden_bible.dto;
 
+import jungsom.garden_bible.entity.User;
+import jungsom.garden_bible.enums.FriendshipStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FriendRequestDto {
-    private Long fromUserId;
-    private String toInviteCode;
+    private User fromUser;
+    private User toUser;
+    private FriendshipStatus status;
 }

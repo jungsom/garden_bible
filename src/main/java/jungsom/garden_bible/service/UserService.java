@@ -23,6 +23,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.Optional;
 
 @Configuration
@@ -49,6 +50,7 @@ public class UserService {
                 .email(dto.getEmail())
                 .password(encodedPassword)
                 .username(dto.getUsername())
+                .inviteCode(generateCode())
                 .socialType("local")
                 .build();
 
@@ -76,6 +78,18 @@ public class UserService {
     public String getSocialAccessToken(String email, String type) {
         Optional<User> user = userRepository.findByEmailAndSocialType(email, type);
         return user.get().getAccessToken();
+    }
+
+    // 그룹 코드 생성
+    public String generateCode() {
+        String characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+        Integer codeLength = 8;
+        SecureRandom random = new SecureRandom();
+        StringBuilder code = new StringBuilder(codeLength);
+        for (int i = 0; i < codeLength; i++) {
+            code.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return code.toString();
     }
 
 }
