@@ -1,5 +1,6 @@
 package jungsom.garden_bible.controller;
 
+import jungsom.garden_bible.dto.FriendDto;
 import jungsom.garden_bible.dto.FriendRequestDto;
 import jungsom.garden_bible.dto.UserDto;
 import jungsom.garden_bible.entity.Friendship;
@@ -11,6 +12,8 @@ import jungsom.garden_bible.service.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/friends")
@@ -40,15 +43,41 @@ public class FriendshipController {
 
     /** 받은 친구 요청 목록 */
     @GetMapping("/respond")
-    public ResponseEntity<String> respond(@RequestParam String code) {
-        User toUser = userDetailService.getAuthenticatedUserId();
-        return ResponseEntity.ok("test");
+    public ResponseEntity<?> respond() {
+        List<Friendship> requestedFriends = friendshipService.selectRequestedFriends();
+
+        if (requestedFriends.isEmpty()) {
+            ResponseEntity.ok("요청 온 친구가 없습니다.");
+        }
+        return ResponseEntity.ok(requestedFriends);
     }
 
-    /** 신청 수락 or 거절 */
-    @PostMapping("/accept")
-    public ResponseEntity<String> accept(@RequestBody UserDto dto) {
-        User toUser = userDetailService.getAuthenticatedUserId();
-        return ResponseEntity.ok("test");
+    /** 팔로우된 친구 목록 */
+    @GetMapping("/follow")
+    public ResponseEntity<?> follow() {
+        List<FriendDto> acceptedFriends = friendshipService.selectAcceptedFriends();
+
+        if (acceptedFriends.isEmpty()) {
+            ResponseEntity.ok("팔로우된 친구가 없습니다.");
+        }
+        return ResponseEntity.ok(acceptedFriends);
+    }
+
+    /** 신청 수락 */
+    @PostMapping("/accept/{id}")
+    public ResponseEntity<?> accept(@PathVariable Integer id) {
+        Friendship acceptedFriend = friendshipService.acceptFriend(id);
+
+        return ResponseEntity.ok(acceptedFriend);
+
+    }
+
+    /* 신청 거절 */
+    @PostMapping("/refuse/{id}")
+    public ResponseEntity<?> refuse(@PathVariable Integer id) {
+        friendshipService.refuseFriend(id);
+
+        return ResponseEntity.ok("친구 신청을 거절하였습니다.");
+
     }
 }

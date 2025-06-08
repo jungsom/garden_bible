@@ -33,6 +33,12 @@ public class PrayController {
         }
     }
 
+    @GetMapping("/friends")
+    public ResponseEntity<?> getFriendsPrayers() {
+        List<Pray> prays = prayService.getFriendPrays();
+        return ResponseEntity.ok(prays);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getPrayer(@PathVariable Integer id) {
         try {

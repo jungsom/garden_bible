@@ -1,21 +1,27 @@
 package jungsom.garden_bible.service;
 
 import jungsom.garden_bible.config.CustomException;
+import jungsom.garden_bible.dto.FriendDto;
 import jungsom.garden_bible.dto.PrayDto;
 import jungsom.garden_bible.entity.Pray;
 import jungsom.garden_bible.entity.User;
+import jungsom.garden_bible.repository.FriendshipRepository;
 import jungsom.garden_bible.repository.PrayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PrayService {
     private final PrayRepository prayRepository;
+    private final FriendshipRepository friendshipRepository;
+    private final FriendshipService friendshipService;
     private final UserDetailService userDetailService;
 
     public List<Pray> getMyPrays() {
@@ -25,6 +31,22 @@ public class PrayService {
 
         return pray;
     }
+
+    public List<Pray> getFriendPrays() {
+        User me = userDetailService.getAuthenticatedUserId();
+
+        // 친구 목록 조회 (FriendDto → id만 추출)
+        List<FriendDto> friends = friendshipService.selectAcceptedFriends();
+        List<Integer> friendIds = friends.stream()
+                .map(FriendDto::getId)
+                .collect(Collectors.toList());
+
+        if (friendIds.isEmpty()) return new ArrayList<>();
+
+        // 친구 ID 목록으로 pray 조회
+        return prayRepository.findAllByAuthorIdIn(friendIds);
+    }
+
 
     public Pray getPrayById(Integer id) {
         User user = userDetailService.getAuthenticatedUserId();

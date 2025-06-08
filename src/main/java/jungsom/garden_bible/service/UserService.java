@@ -92,4 +92,10 @@ public class UserService {
         return code.toString();
     }
 
+    public User selectUser() {
+        User me = userDetailService.getAuthenticatedUserId();
+        User user = userRepository.findById(me.getId()).orElse(null);
+        return user;
+    }
+
 }

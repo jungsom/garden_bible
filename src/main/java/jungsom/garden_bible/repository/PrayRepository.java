@@ -10,5 +10,6 @@ import java.util.List;
 
 @Repository
 public interface PrayRepository extends JpaRepository<Pray, Integer> {
-    List<Pray> findAllByAuthorId(int authorId);
+    List<Pray> findAllByAuthorId(Integer authorId);
+    List<Pray> findAllByAuthorIdIn(List<Integer> authorIds);
 }

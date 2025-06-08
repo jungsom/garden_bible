@@ -7,23 +7,23 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "pray")
+@Table(name = "bookmark")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Pray {
+public class Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    public String title;
-
     @ManyToOne
-    public User author;
+    public User user;
 
-    public String content;
+    private int book;
+    private int chapter;
+    private int verse;
 
     @CreationTimestamp
     @Column(name = "createdAt", nullable = false, updatable = false)

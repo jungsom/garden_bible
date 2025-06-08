@@ -7,6 +7,7 @@ import jungsom.garden_bible.config.EnvConfig;
 import jungsom.garden_bible.config.JwtTokenProvider;
 import jungsom.garden_bible.dto.LoginDto;
 import jungsom.garden_bible.dto.UserDto;
+import jungsom.garden_bible.entity.User;
 import jungsom.garden_bible.repository.UserRepository;
 import jungsom.garden_bible.service.UserDetailService;
 import jungsom.garden_bible.service.UserService;
@@ -54,5 +55,12 @@ public class UserController {
         response.addCookie(cookie);
 
         return ResponseEntity.ok("회원가입이 완료되었습니다.");
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> selectUser() {
+        User user = userService.selectUser();
+
+        return ResponseEntity.ok(user);
     }
 }

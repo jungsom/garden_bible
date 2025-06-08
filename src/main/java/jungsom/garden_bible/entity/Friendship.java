@@ -3,7 +3,9 @@ package jungsom.garden_bible.entity;
 import jakarta.persistence.*;
 import jungsom.garden_bible.enums.FriendshipStatus;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,7 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Friendship {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
@@ -27,6 +29,15 @@ public class Friendship {
     @Enumerated()
     private FriendshipStatus status;
 
-    private LocalDateTime requestedAt;
-    private LocalDateTime respondedAt;
+    @CreationTimestamp
+    @Column(name = "createdAt", nullable = false, updatable = false)
+    private LocalDate createdAt;
+
+    @CreationTimestamp
+    @Column(name = "updatedAt", nullable = false)
+    private LocalDate updatedAt;
+
+    @Column(name = "deletedAt")
+    private LocalDate deletedAt = null;
+
 }
